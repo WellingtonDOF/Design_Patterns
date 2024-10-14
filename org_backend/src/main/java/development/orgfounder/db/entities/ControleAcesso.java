@@ -1,10 +1,11 @@
 package development.orgfounder.db.entities;
 
+import development.orgfounder.db.observer.IObserver;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="controle_acesso")
-public class ControleAcesso {
+public class ControleAcesso implements IObserver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,5 +97,15 @@ public class ControleAcesso {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public void update(Estoque estoque) {
+
+
+        int quantidade = estoque.getQuantidade();
+
+        if(quantidade <=10)
+
     }
 }

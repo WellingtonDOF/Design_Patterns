@@ -20,14 +20,18 @@ public class Produto {
     @Column(name="valor")
     private Double valor;
 
-    public Produto() {this(0L,null,"","",0.0);}
+    @Column(name="Peso")
+    private Double peso;
 
-    public Produto(Long id, Estoque id_estoque, String nome, String tipo, Double valor) {
+    public Produto() {this(0L,null,"","",0.0,0.0);}
+
+    public Produto(Long id, Estoque id_estoque, String nome, String tipo, Double valor,Double peso) {
         this.id = id;
         this.id_estoque = id_estoque;
         this.nome = nome;
         this.tipo = tipo;
         this.valor = valor;
+        this.peso = peso;
     }
 
     public Long getId() {
@@ -68,5 +72,13 @@ public class Produto {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public Double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(Double peso) {
+        this.peso = peso;
     }
 }

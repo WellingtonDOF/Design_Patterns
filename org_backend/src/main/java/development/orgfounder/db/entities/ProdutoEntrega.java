@@ -37,4 +37,13 @@ public class ProdutoEntrega {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+
+    public void SetPeso()
+    {
+        ProdutoEntregaKey key = new ProdutoEntregaKey();
+        double peso;
+        peso=key.getId_produto().getPeso()*quantidade;
+        key.getId_entrega().setPeso_total(key.getId_entrega().getPeso_total()+peso);
+    }
+
 }

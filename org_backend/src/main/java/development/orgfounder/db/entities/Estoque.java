@@ -1,8 +1,11 @@
 package development.orgfounder.db.entities;
 
+import development.orgfounder.db.observer.IObserver;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="estoque")
@@ -17,6 +20,10 @@ public class Estoque {
 
     @Column(name="validade")
     private LocalDate validade;
+
+    @Transient
+    private List<IObserver> observers = new ArrayList<>(); //coloquei como transient para o JPA ignorar..
+
 
     public Estoque() {this(0L,0,null);}
     public Estoque(Long id, int quantidade, LocalDate validade) {
@@ -47,5 +54,19 @@ public class Estoque {
 
     public void setValidade(LocalDate validade) {
         this.validade = validade;
+    }
+
+    public void attach(IObserver observer) {
+        observers.add(observer);
+    }
+
+    public void detach(IObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObservers() {
+        for (IObserver observer : observers) {
+            observer.update(this); //ta puxando o estoque dessa classe, para realizar o update
+        }
     }
 }

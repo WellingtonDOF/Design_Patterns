@@ -1,6 +1,7 @@
 package development.orgfounder.restcontrollers;
 
 import development.orgfounder.db.entities.ControleAcesso;
+import development.orgfounder.db.entities.Estoque;
 import development.orgfounder.security.JWTTokenProvider;
 import development.orgfounder.services.ControleAcessoService;
 import development.orgfounder.services.ParametrizacaoService;
@@ -41,14 +42,8 @@ public class UserAdminRestControllers {
                                                        @RequestParam(value="notify", required = false) String notify)
     {
 
-        /*
-        if(notify.equals("sim"))
-            System.out.println("chegou");
-
-        if( notify.equals("não"))
-            System.out.println("chegou2");*/
-
         ControleAcesso controleAcesso = new ControleAcesso();
+        Estoque estoque = new Estoque();
 
         controleAcesso.setLogin(email);
         controleAcesso.setNome(nome);
@@ -60,7 +55,11 @@ public class UserAdminRestControllers {
             controleAcesso.setNotify(false);
 
         if(controleAcessoService.getByEmail(email)==null)
-            return new ResponseEntity<>(controleAcessoService.save(controleAcesso), HttpStatus.OK);
+        {
+            controleAcesso = controleAcessoService.save(controleAcesso);
+            estoque.attach(controleAcesso);
+            return new ResponseEntity<>(controleAcesso, HttpStatus.OK);
+        }
         else
             return new ResponseEntity<>("Nao cadastrado",HttpStatus.CONFLICT);
     }

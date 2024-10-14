@@ -207,6 +207,9 @@ public class AdminRestControllers {
         Long idFuncionario = Long.parseLong(id_func);
         Long idDonatario = Long.parseLong(id_donat);
 
+
+
+
         Donatario donatario = donatarioService.getById(idDonatario);
 
         if(donatario!=null)

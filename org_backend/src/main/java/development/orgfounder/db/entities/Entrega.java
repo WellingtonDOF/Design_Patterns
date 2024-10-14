@@ -30,14 +30,26 @@ public class Entrega {
     @Column(name="status")
     private String status;
 
-    public Entrega(){this(0L,null,null,"",null,"A");}
-    public Entrega(Long id, Funcionario id_funcionario, Donatario id_donatario, String tipo, LocalDate data, String status) {
+    @Column(name="peso_total")
+    private Double peso_total;
+
+    public Entrega(){this(0L,null,null,"",null,"A",0.0);}
+    public Entrega(Long id, Funcionario id_funcionario, Donatario id_donatario, String tipo, LocalDate data, String status,Double peso_total) {
         this.id = id;
         this.id_funcionario = id_funcionario;
         this.id_donatario = id_donatario;
         this.tipo = tipo;
         this.data = data;
         this.status = status;
+        this.peso_total = peso_total;
+    }
+
+    public Double getPeso_total() {
+        return peso_total;
+    }
+
+    public void setPeso_total(Double peso_total) {
+        this.peso_total = peso_total;
     }
 
     public Long getId() {
