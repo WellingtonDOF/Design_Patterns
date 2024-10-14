@@ -1,0 +1,344 @@
+-- -----------------------------------------------------
+-- Table "public"."funcionario"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."funcionario" (
+  "id_funcionario" SERIAL PRIMARY KEY,
+  "nome" VARCHAR(45) NOT NULL,
+  "cpf" VARCHAR(15) NOT NULL,
+  "telefone" VARCHAR(15) NOT NULL,
+  "endereco" VARCHAR(35) NOT NULL,
+  "email" VARCHAR(35) NOT NULL,
+  "sexo" CHAR(1) NOT NULL,
+  "estado" VARCHAR(35),
+  "cidade" VARCHAR(35),
+  "bairro" VARCHAR(35),
+  "cep" VARCHAR(35),
+  "dta_nascimento" timestamp without time zone ,
+  "dta_admissao" timestamp without time zone ,
+  "dta_demissao" timestamp without time zone 
+);
+
+-- -----------------------------------------------------
+-- Table "public"."caixa"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."caixa" (
+  "id_caixa" SERIAL PRIMARY KEY,
+  "id_funcionario" INTEGER NOT NULL,
+  "saldo_inicial" FLOAT NOT NULL,
+  "saldo_final" FLOAT NOT NULL,
+  "data" timestamp without time zone NOT NULL,
+  CONSTRAINT "fk_caixa_funcionario1"
+    FOREIGN KEY ("id_funcionario")
+    REFERENCES "public"."funcionario" ("id_funcionario")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."despesa"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."despesa" (
+  "id_despesa" SERIAL PRIMARY KEY,
+  "id_caixa" INTEGER NOT NULL,
+  "id_funcionario" INTEGER NOT NULL,
+  "valor" FLOAT NOT NULL,
+  "descricao" VARCHAR(45) NOT NULL,
+  "valor_pagamento" FLOAT,
+  "dta_pagamento" timestamp without time zone ,
+  "dta_vencimento" timestamp without time zone ,
+  CONSTRAINT "fk_despesa_caixa1"
+    FOREIGN KEY ("id_caixa")
+    REFERENCES "public"."caixa" ("id_caixa")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_despesa_funcionario1"
+    FOREIGN KEY ("id_funcionario")
+    REFERENCES "public"."funcionario" ("id_funcionario")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."donatario"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."donatario" (
+  "id_donatario" SERIAL PRIMARY KEY,
+  "nome" VARCHAR(45) NOT NULL,
+  "cpf" VARCHAR(15) NOT NULL,
+  "telefone" VARCHAR(15) NOT NULL,
+  "endereco" VARCHAR(35) NOT NULL,
+  "sexo" CHAR(1) NOT NULL,
+  "estado" VARCHAR(35),
+  "cidade" VARCHAR(35),
+  "bairro" VARCHAR(35),
+  "cep" VARCHAR(35),
+  "raca" VARCHAR(45),
+  "dta_nascimento" timestamp without time zone 
+);
+
+-- -----------------------------------------------------
+-- Table "public"."visita"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."visita" (
+  "id_visita" SERIAL PRIMARY KEY,
+  "id_funcionario" INTEGER NOT NULL,
+  "id_donatario" INTEGER NOT NULL,
+  "endereco" VARCHAR(35) NOT NULL,
+  "descricao" VARCHAR(45) NOT NULL,
+  "dta_visita" timestamp without time zone NOT NULL,
+  CONSTRAINT "fk_visita_funcionario1"
+    FOREIGN KEY ("id_funcionario")
+    REFERENCES "public"."funcionario" ("id_funcionario")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_visita_donatario1"
+    FOREIGN KEY ("id_donatario")
+    REFERENCES "public"."donatario" ("id_donatario")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."curso"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."curso" (
+  "id_curso" SERIAL PRIMARY KEY,
+  "id_funcionario" INTEGER NOT NULL,
+  "nome" VARCHAR(45) NOT NULL,
+  "dta_inicio" timestamp without time zone NOT NULL,
+  "dta_final" timestamp without time zone NOT NULL,
+  "descricao" VARCHAR(45),
+  CONSTRAINT "fk_curso_funcionario1"
+    FOREIGN KEY ("id_funcionario")
+    REFERENCES "public"."funcionario" ("id_funcionario")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."turma"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."turma" (
+  "id_turma" SERIAL PRIMARY KEY,
+  "id_curso" INTEGER NOT NULL,
+  "nome" VARCHAR(45) NOT NULL,
+  "num_alunos" INTEGER NOT NULL,
+  "horario" timestamp without time zone NOT NULL,
+  CONSTRAINT "fk_turma_curso1"
+    FOREIGN KEY ("id_curso")
+    REFERENCES "public"."curso" ("id_curso")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."doador"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."doador" (
+  "id_doador" SERIAL PRIMARY KEY,
+  "nome" VARCHAR(45) NOT NULL,
+  "cpf" VARCHAR(15) NOT NULL,
+  "telefone" VARCHAR(15) NOT NULL,
+  "endereco" VARCHAR(35) NOT NULL,
+  "email" VARCHAR(35) NOT NULL,
+  "estado" VARCHAR(35),
+  "cidade" VARCHAR(35),
+  "bairro" VARCHAR(35),
+  "cep" VARCHAR(35)
+);
+
+-- -----------------------------------------------------
+-- Table "public"."doacao"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."doacao" (
+  "id_doacao" SERIAL PRIMARY KEY,
+  "id_caixa" INTEGER NOT NULL,
+  "id_doador" INTEGER NOT NULL,
+  "categoria" VARCHAR(35) NOT NULL,
+  "status" CHAR(1) NOT NULL,
+  "data" timestamp without time zone NOT NULL,
+  "valor" FLOAT,
+  CONSTRAINT "fk_doacao_caixa1"
+    FOREIGN KEY ("id_caixa")
+    REFERENCES "public"."caixa" ("id_caixa")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_doacao_doador1"
+    FOREIGN KEY ("id_doador")
+    REFERENCES "public"."doador" ("id_doador")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."estoque"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."estoque" (
+  "id_estoque" SERIAL PRIMARY KEY,
+  "quantidade" INTEGER NOT NULL,
+  "validade" timestamp without time zone NOT NULL
+);
+
+-- -----------------------------------------------------
+-- Table "public"."produto"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."produto" (
+  "id_produto" SERIAL PRIMARY KEY,
+  "id_estoque" INTEGER NOT NULL,
+  "nome" VARCHAR(45) NOT NULL,
+  "tipo" VARCHAR(35) NOT NULL,
+  "valor" FLOAT NOT NULL,
+  CONSTRAINT "fk_produto_Estoque1"
+    FOREIGN KEY ("id_estoque")
+    REFERENCES "public"."estoque" ("id_estoque")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."aluno"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."aluno" (
+  "id_aluno" SERIAL PRIMARY KEY,
+  "nome" VARCHAR(45) NOT NULL,
+  "cpf" VARCHAR(15) NOT NULL,
+  "telefone" VARCHAR(15) NOT NULL,
+  "endereco" VARCHAR(35) NOT NULL,
+  "email" VARCHAR(35) NOT NULL,
+  "sexo" CHAR(1) NOT NULL,
+  "estado" VARCHAR(35),
+  "cidade" VARCHAR(35),
+  "bairro" VARCHAR(35),
+  "cep" VARCHAR(35)
+);
+
+-- -----------------------------------------------------
+-- Table "public"."matricula"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."matricula" (
+  "id_matricula" SERIAL PRIMARY KEY,
+  "id_turma" INTEGER NOT NULL,
+  "id_aluno" INTEGER NOT NULL,
+  "dta_inicial" timestamp without time zone NOT NULL,
+  "status" CHAR(1) NOT NULL,
+  CONSTRAINT "fk_matricula_turma1"
+    FOREIGN KEY ("id_turma")
+    REFERENCES "public"."turma" ("id_turma")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_matricula_aluno1"
+    FOREIGN KEY ("id_aluno")
+    REFERENCES "public"."aluno" ("id_aluno")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."presenca"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."presenca" (
+  "id_presenca" SERIAL PRIMARY KEY,
+  "id_matricula" INTEGER NOT NULL,
+  "falta" CHAR(1) NOT NULL,
+  "data" timestamp without time zone NOT NULL,
+  CONSTRAINT "fk_presenca_matricula1"
+    FOREIGN KEY ("id_matricula")
+    REFERENCES "public"."matricula" ("id_matricula")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."entrega"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."entrega" (
+  "id_entrega" SERIAL PRIMARY KEY,
+  "id_funcionario" INTEGER NOT NULL,
+  "id_donatario" INTEGER NOT NULL,
+  "tipo" VARCHAR(35) NOT NULL,
+  "data" timestamp without time zone NOT NULL,
+  "status" CHAR(1) NOT NULL,
+  CONSTRAINT "fk_entrega_funcionario1"
+    FOREIGN KEY ("id_funcionario")
+    REFERENCES "public"."funcionario" ("id_funcionario")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_entrega_donatario1"
+    FOREIGN KEY ("id_donatario")
+    REFERENCES "public"."donatario" ("id_donatario")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."itens_doacao"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."itens_doacao" (
+  "id_produto" INTEGER NOT NULL,
+  "id_doacao" INTEGER NOT NULL,
+  "quantidade" INTEGER NOT NULL,
+  PRIMARY KEY ("id_produto", "id_doacao"),
+  CONSTRAINT "fk_itens_doacao_doacao1"
+    FOREIGN KEY ("id_doacao")
+    REFERENCES "public"."doacao" ("id_doacao")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_itens_doacao_produto1"
+    FOREIGN KEY ("id_produto")
+    REFERENCES "public"."produto" ("id_produto")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."produto_entrega"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."produto_entrega" (
+  "id_produto" INTEGER NOT NULL,
+  "id_entrega" INTEGER NOT NULL,
+  "quantidade" INTEGER NOT NULL,
+  PRIMARY KEY ("id_produto", "id_entrega"),
+  CONSTRAINT "fk_produto_entrega_produto1"
+    FOREIGN KEY ("id_produto")
+    REFERENCES "public"."produto" ("id_produto")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT "fk_produto_entrega_entrega1"
+    FOREIGN KEY ("id_entrega")
+    REFERENCES "public"."entrega" ("id_entrega")
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+);
+
+-- -----------------------------------------------------
+-- Table "public"."parametrizacao"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."parametrizacao" (
+  "id_parametrizacao" SERIAL PRIMARY KEY,
+  "razao_social" VARCHAR(45) NOT NULL,
+  "nome_fantasia" VARCHAR(45) NOT NULL,
+  "cnpj" VARCHAR(45) NOT NULL,
+  "email" VARCHAR(35) NOT NULL,
+  "site" VARCHAR(45) NOT NULL,
+  "estado" VARCHAR(35),
+  "cidade" VARCHAR(35),
+  "bairro" VARCHAR(35),
+  "rua" VARCHAR(45),
+  "cep" VARCHAR(35),
+  "logotipo_grande" VARCHAR(45),
+  "logotipo_pequeno" VARCHAR(45)
+);
+
+-- -----------------------------------------------------
+-- Table "public"."controle_acesso"
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS "public"."controle_acesso" (
+  "id_controle_acesso" SERIAL PRIMARY KEY,
+  "login" VARCHAR(35) NOT NULL,
+  "senha" VARCHAR(35) NOT NULL,
+  "nivel" CHAR(1) NOT NULL,
+  "nome" VARCHAR(45),
+  "status" CHAR(1),
+  "notify" BOOLEAN
+);
+

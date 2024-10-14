@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/script.js"></script>
+</head>
+<body>  
+    <div class="page">
+        <form class="formLogin" id="formLogin" method="POST">
+            <h1>Login </h1>
+            <img class="imagemL" src="https://github.com/github.png" alt="GitHub Logo">
+
+            <div class="validarForm contaStatus" id="inativeStatus" style="display: none;">
+                <p>Conta desativada. Entre em contato com o administrador para reativá-la.</p>
+            </div>
+
+            <div class="validarForm contaStatus" id="semParametrizacao" style="display: none;">
+                <p>Erro ao logar, entre em contato com um administrador!</p>
+            </div>
+            <label for="email">E-mail *</label>
+            <input type="email" id="email" name="email" placeholder="seuemail@example.com" autofocus="true" maxlength="35" value="teste2@gmail.com"/>
+            <div class="validarForm" id="invalidMail" style="display: none">
+                <p>E-mail inválido, tente novamente!</p>
+            </div>
+
+            <label for="password" >Senha *</label>
+            <input type="password" id="pass" name="pass" placeholder="Digite sua senha" maxlength="35" value="senha1234"/>
+            <div class="validarForm" id="invalidPass" style="display: none">
+                <p>Senha invalida, tente novamente!</p>
+            </div>
+
+            <a href="./cadastroUsuario.html">Ainda não tem uma conta?</a>
+            <!--<input type="submit" onclick="validarCampos(event)" value="Acessar" class="btn" /> !-->
+            <input type="submit" onclick="testeJWT(event)" value="Acessar" class="btn" />
+            <p><span style="color: red; font-size:18px">*</span> Campo obrigatório</p>
+        </form>
+        <button onclick="testeToken()">asdas</button>
+
+    </div>
+</body>
+</html>

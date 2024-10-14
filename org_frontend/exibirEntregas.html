@@ -1,0 +1,76 @@
+
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrente do bem - Cadastro</title>
+    <link rel="stylesheet" href="./css/cadUser.css"> <!-- Substitua pelo caminho correto do seu arquivo CSS -->
+    <link rel="stylesheet" href="./css/stylePagina.css">
+
+    <script src="./js/cadastroE.js"></script>
+    <script src="./js/carregarHeaderFooter.js"></script>
+
+</head>
+<body onload="carregaHeaderFooter()">
+    <div class="wrapper">
+        <header id="headerAdm" class="main-header">
+            <!--COLOCAR O HEADER DO SCRIPT AQUI CASO DE ALGUM ERRO, ESTA NO CARREGARHEADERFOOTER-->
+        </header>
+    
+        <main class="content">
+            <div class="page">
+                <div class="formLogin">
+                    <h1>Corrente do bem</h1>
+                    <h2>Funcionario</h2>
+
+                    <form id="formU">
+                        <label for="cpf">CPF:</label>
+                        <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" value="" oninput="" maxlength="14" readonly>
+                        <span id="idFunc" style="display: none;" value="0"></span>
+                        <div id="divAll" style="display: block;">
+                            <label for="nome">Nome:</label>
+                            <input id="nome" name="nome" type="text" placeholder="Nome" autofocus="true" value="" style="display: block;" readonly>
+
+                            <label for="email">Email:</label>
+                            <input id="email" name="email" type="text" placeholder="Email" value="" style="display: block;" readonly>
+                        </div>
+                        <br>
+                        <h2>Donatario</h2>
+                        <label for="cpf2">CPF:</label>
+                        <input id="cpf2" name="cpf2" type="text" placeholder="Digite o CPF" value="" oninput="" maxlength="14" readonly>
+                        <span id="idDonat" style="display: none;" value="0"></span>
+
+                        <div id="divAll2" style="display: block;">
+                            <label for="nome2">Nome:</label>
+                            <input id="nome2" name="nome2" type="text" placeholder="Nome" autofocus="true" value="" style="display: block;" readonly>
+
+                            <label for="email2">Telefone:</label>
+                            <input id="telefone2" name="telefone2" type="text" placeholder="Telefone" value="" style="display: block;" readonly>
+                        </div>
+
+                        <br>
+                        <h2>Entrega</h2>
+                        <div id="divAll3" style="display: block;">
+                            <label for="tipo">Tipo:</label>
+                            <input id="tipo" name="tipo" type="text" placeholder="Tipo" autofocus="true" value="" style="display: block;" >
+
+                            <label for="data">Data:</label>
+                            <input id="data" name="data" type="date" placeholder="Data entrega" value="" style="display: block;">
+
+                            <label for="status">Andamento:</label>
+                            <input id="status" name="status" type="text" placeholder="Status" value="" style="display: block;" >
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </main>
+        <footer class="main-footer" id="footerAdm">
+            <!--COLOCAR O FOOTER DO SCRIPT AQUI CASO DE ALGUM ERRO, ESTA NO CARREGARHEADERFOOTER-->
+         </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela Estilizada</title>
+    <link rel="stylesheet" href="./css/consultarU.css">
+    <script src="./js/consultarU.js"></script>
+</head>
+<body>
+    
+    <div class="main-content">
+
+        
+        <div class="dropdown">
+            <button id="dropdown-btn">Filtrar por&#9662;</button>
+            <div class="dropdown-content">
+                <!-- Conteúdo do dropdown -->
+                <a href="#" onclick="filtrarEmail()">Email</a>
+                <a href="#" onclick="filtrarCpf()">CPF</a>
+            </div>
+        </div>
+
+        <div id="filtrarE" style="display: none;">
+            <label for="nome">Email:</label>
+            <input id="emailU" name="emailU" type="email" placeholder="Digite o email" value=""  oninput="consultarEmail()" onfocus="desativarCaixas()">
+            <div id="divEmail" style="display: none">
+                <h3 class="validarForm">Email inválido!</h3>
+            </div>
+        </div>
+
+        <div id="filtrarC" style="display: none;">
+            <label for="cpf">CPF:</label>
+            <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" value="" oninput="consultarCPF()" onfocus="desativarCaixas()">
+            <div id="divCPF" style="display: none">
+                <h3 class="validarForm">Digite o CPF!</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-content">
+        <input type="text" id="name" placeholder="Nome">
+        <button id="change-btn">Alterar</button>
+    </div>
+    
+    <div class="main-content">
+    </div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrente do bem - Cadastro</title>
+    <link rel="stylesheet" href="./css/cadParametrizacao.css"> <!-- Substitua pelo caminho correto do seu arquivo CSS -->
+    <link rel="stylesheet" href="./css/stylePagina.css">
+    <script src="./js/cadastroP.js"></script>
+    <script src="./js/paginaAdminUser.js"></script>
+    <script src="./js/carregarHeaderFooter.js"></script>
+</head>
+<body onload="getParametrizacao(event); carregaHeaderFooter();">
+    <div class="wrapper">
+
+        <header id="headerAdm" class="main-header">
+            <!--COLOCAR O HEADER DO SCRIPT AQUI CASO DE ALGUM ERRO, ESTA NO CARREGARHEADERFOOTER-->
+        </header>
+    
+        <main class="content">
+            <div class="page">
+                <div class="formLogin">
+                    <h1>Corrente do bem</h1>
+                    <h2>Alterar parametrização</h2>
+                    <form id="formP" method="POST" enctype="multipart/form-data">
+                        <input id="razaoP" name="razaoP" type="text" placeholder="Razão social*" autofocus="true" value="">
+                        <div id="divRazao" style="display: none">
+                            <p class="validarForm">Razão social inválida!</p>
+                        </div>
+                        <input id="nomeP" name="nomeP" type="text" placeholder="Nome fantasia*" value="">
+                        <div id="divNome" style="display: none">
+                            <p class="validarForm">Nome fantasia inválido!</p>
+                        </div>
+                        <input type="text" id="cnpjP" name="cnpjP" placeholder="CNPJ *" maxlength="18" value="">
+                        <div id="divCNPJ" style="display: none">
+                            <p class="validarForm">CNPJ inválido!</p>
+                        </div>
+                        <input id="emailP" name="emailP" type="email" placeholder="Email*" value="">
+                        <div id="divEmail" style="display: none">
+                            <p class="validarForm">Email inválido!</p>
+                        </div>
+                        <input id="siteP" name="siteP" type="text" placeholder="Url do site*" value="">
+                        <div id="divSite" style="display: none">
+                            <p class="validarForm">Site inválido!</p>
+                        </div>
+                        <input type="text" id="cepP" name="cepP" placeholder="CEP *" maxlength="9" value="">
+                        <div id="divCEP" style="display: none">
+                            <p class="validarForm">CEP inválido!</p>
+                        </div>
+                        <input type="text" id="cidadeP" name="cidadeP" placeholder="Cidade*" value="">
+                        <div id="divCidade" style="display: none">
+                            <p class="validarForm">Cidade inválida!</p>
+                        </div>
+                        <input type="text" id="enderecoP" name="enderecoP" placeholder="Rua*" value="">
+                        <div id="divEndereco" style="display: none">
+                            <p class="validarForm">Endereço inválido!</p>
+                        </div>
+                        <input type="text" id="bairroP" name="bairroP" placeholder="Bairro*" value="">
+                        <div id="divBairro" style="display: none">
+                            <p class="validarForm">Bairro inválido!</p>
+                        </div>
+                        <input type="text" id="estadoP" name="estadoP" placeholder="Estado*" value="">
+                        <div id="divEstado" style="display: none">
+                            <p class="validarForm">Estado inválido!</p>
+                        </div>
+
+                        <div class="file-inputs-container">
+                            <div class="file-input">
+                                <label for="arquivo1">Logo G*</label>
+                                <input id="arquivo1" name="arquivo1" type="file" accept=".jpg,.jpeg,.png,.pdf">
+                            </div>
+                        
+                            <div class="file-input">
+                                <label for="arquivo2">Logo P*</label>
+                                <input id="arquivo2" name="arquivo2" type="file" accept=".jpg,.jpeg,.png,.pdf">
+                            </div>
+                        </div>  
+                    </form>
+                    <div id="divArq1" style="display: none">
+                        <p class="validarForm" style="margin-left: 0.8rem; margin-top: 0px;">Arquivo Logo G inválido!</p>
+                    </div>
+                    <div id="divArq2" style="display: none">
+                        <p class="validarForm" style="margin-left: 13.4rem;">Arquivo Logo P inválido!</p>
+                    </div>
+                    <div id="divSucesso" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(11, 139, 39); margin-left: 2.6rem; margin-bottom: 2px;">Alteração realizada, aguarde o redirecionamento..</h3>
+                    </div>
+                    <button class="btn" onclick="cadastrarParametrizacao(event)" style="margin-bottom: 15px;">Cadastrar</button>
+                
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer" id="footerAdm">
+           <!--COLOCAR O FOOTER DO SCRIPT AQUI CASO DE ALGUM ERRO, ESTA NO CARREGARHEADERFOOTER-->
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+-- Inserir dados na tabela "funcionario"
+INSERT INTO "public"."funcionario" ("nome", "cpf", "telefone", "endereco", "email", "sexo", "estado", "cidade", "bairro", "cep", "dta_nascimento", "dta_admissao")
+VALUES 
+('João Silva', '123.456.789-10', '(11) 98765-4321', 'Rua Principal, 123', 'joao@example.com', 'M', 'São Paulo', 'São Paulo', 'Centro', '12345-678', '1990-05-10', '2022-01-01'),
+('Maria Souza', '987.654.321-10', '(11) 12345-6789', 'Avenida Secundária, 456', 'maria@example.com', 'F', 'São Paulo', 'São Paulo', 'Bela Vista', '54321-098', '1992-07-15', '2022-02-15');
+
+-- Inserir dados na tabela "caixa"
+INSERT INTO "public"."caixa" ("id_funcionario", "saldo_inicial", "saldo_final", "data")
+VALUES 
+(1, 1000.00, 1200.00, '2024-05-01'),
+(2, 1500.00, 1300.00, '2024-05-01');
+
+-- Inserir dados na tabela "despesa"
+INSERT INTO "public"."despesa" ("id_caixa", "id_funcionario", "valor", "descricao", "valor_pagamento", "dta_pagamento", "dta_vencimento")
+VALUES 
+(1, 1, 500.00, 'Conta de Luz', NULL, NULL, '2024-05-10'),
+(1, 1, 300.00, 'Aluguel', NULL, NULL, '2024-05-05');
+
+-- Inserir dados na tabela "donatario"
+INSERT INTO "public"."donatario" ("nome", "cpf", "telefone", "endereco", "sexo", "estado", "cidade", "bairro", "cep", "raca", "dta_nascimento")
+VALUES 
+('Carlos Oliveira', '222.333.444-55', '(11) 54321-0987', 'Rua dos Fundos, 321', 'M', 'São Paulo', 'São Paulo', 'Centro', '54321-678', 'Branca', '1985-12-20'),
+('Ana Santos', '444.555.666-77', '(11) 67890-1234', 'Avenida Principal, 789', 'F', 'São Paulo', 'São Paulo', 'Bela Vista', '09876-543', 'Parda', '1978-08-15');
+
+-- Inserir dados na tabela "visita"
+INSERT INTO "public"."visita" ("id_funcionario", "id_donatario", "endereco", "descricao", "dta_visita")
+VALUES 
+(1, 1, 'Rua dos Fundos, 321', 'Entrega de alimentos', '2024-05-02'),
+(2, 2, 'Avenida Principal, 789', 'Entrega de roupas', '2024-05-03');
+
+-- Inserir dados na tabela "curso"
+INSERT INTO "public"."curso" ("id_funcionario", "nome", "dta_inicio", "dta_final", "descricao")
+VALUES 
+(1, 'Curso de Informática Básica', '2024-06-01', '2024-07-15', 'Curso introdutório de informática'),
+(2, 'Curso de Culinária', '2024-06-05', '2024-07-20', 'Curso de culinária básica');
+
+-- Inserir dados na tabela "turma"
+INSERT INTO "public"."turma" ("id_curso", "nome", "num_alunos", "horario")
+VALUES 
+(1, 'Turma Manhã', 20, '2024-06-01 08:00:00'),
+(2, 'Turma Tarde', 15, '2024-06-05 14:00:00');
+
+-- Inserir dados na tabela "doador"
+INSERT INTO "public"."doador" ("nome", "cpf", "telefone", "endereco", "email", "estado", "cidade", "bairro", "cep")
+VALUES 
+('José Pereira', '333.444.555-66', '(11) 23456-7890', 'Rua dos Doadores, 987', 'jose@example.com', 'São Paulo', 'São Paulo', 'Centro', '98765-432'),
+('Lucia Oliveira', '555.666.777-88', '(11) 34567-8901', 'Avenida das Doações, 654', 'lucia@example.com', 'São Paulo', 'São Paulo', 'Bela Vista', '76543-219');
+
+-- Inserir dados na tabela "doacao"
+INSERT INTO "public"."doacao" ("id_caixa", "id_doador", "categoria", "status", "data", "valor")
+VALUES 
+(1, 1, 'Alimentos', 'A', '2024-05-05', 200.00),
+(2, 2, 'Roupas', 'A', '2024-05-10', 300.00);
+
+-- Inserir dados na tabela "estoque"
+INSERT INTO "public"."estoque" ("quantidade", "validade")
+VALUES 
+(50, '2024-12-31'),
+(100, '2024-10-31');
+
+-- Inserir dados na tabela "produto"
+INSERT INTO "public"."produto" ("id_estoque", "nome", "tipo", "valor")
+VALUES 
+(1, 'Arroz', 'Alimento', 5.00),
+(2, 'Camiseta', 'Vestuário', 20.00);
+
+-- Inserir dados na tabela "aluno"
+INSERT INTO "public"."aluno" ("nome", "cpf", "telefone", "endereco", "email", "sexo", "estado", "cidade", "bairro", "cep")
+VALUES 
+('Pedro Santos', '666.777.888-99', '(11) 45678-9012', 'Rua da Escola, 987', 'pedro@example.com', 'M', 'São Paulo', 'São Paulo', 'Centro', '87654-321'),
+('Laura Oliveira', '888.999.000-11', '(11) 56789-0123', 'Avenida do Estudo, 654', 'laura@example.com', 'F', 'São Paulo', 'São Paulo', 'Bela Vista', '76543-210');
+
+INSERT INTO "public"."matricula" ("id_turma", "id_aluno", "dta_inicial", "status")
+VALUES 
+(1, 1, '2024-06-01', 'A'),
+(2, 2, '2024-06-05', 'A');
+
+-- Inserir dados na tabela "presenca"
+INSERT INTO "public"."presenca" ("id_matricula", "falta", "data")
+VALUES 
+(1, 'N', '2024-06-01'),
+(2, 'N', '2024-06-05');
+
+-- Inserir dados na tabela "entrega"
+INSERT INTO "public"."entrega" ("id_funcionario", "id_donatario", "tipo", "data", "status")
+VALUES 
+(1, 1, 'Alimentos', '2024-05-05', 'A'),
+(2, 2, 'Roupas', '2024-05-10', 'A');
+
+-- Inserir dados na tabela "itens_doacao"
+INSERT INTO "public"."itens_doacao" ("id_produto", "id_doacao", "quantidade")
+VALUES 
+(1, 1, 20),
+(2, 2, 15);
+
+-- Inserir dados na tabela "produto_entrega"
+INSERT INTO "public"."produto_entrega" ("id_produto", "id_entrega", "quantidade")
+VALUES 
+(1, 1, 20),
+(2, 2, 15);
+
+-- Inserir dados na tabela "parametrizacao"
+INSERT INTO "public"."parametrizacao" ("razao_social", "nome_fantasia", "cnpj", "email", "site", "estado", "cidade", "bairro", "rua", "cep", "logotipo_grande", "logotipo_pequeno")
+VALUES 
+('Empresa Exemplo LTDA', 'Empresa Exemplo', '12.345.678/0001-90', 'contato@empresaexemplo.com', 'www.empresaexemplo.com', 'São Paulo', 'São Paulo', 'Centro', 'Rua da Empresa, 123', '12345-678', 'logotipo_grande.jpg', 'logotipo_pequeno.jpg');
+
+-- Inserir dados na tabela "controle_acesso"
+INSERT INTO "public"."controle_acesso" ("login", "senha", "nivel", "nome", "status")
+VALUES 
+('admin', 'admin123', 'A', 'Administrador', 'A'),
+('usuario', 'usuario123', 'U', 'Usuário', 'A');
+

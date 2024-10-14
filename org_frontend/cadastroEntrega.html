@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrente do bem - Cadastro</title>
+    <link rel="stylesheet" href="./css/cadUser.css"> <!-- Substitua pelo caminho correto do seu arquivo CSS -->
+    <link rel="stylesheet" href="./css/stylePagina.css">
+
+    <script src="./js/cadastroE.js"></script>
+    <script src="./js/carregarHeaderFooter.js"></script>
+
+</head>
+<body onload="carregaHeaderFooter()">
+    <div class="wrapper">
+        <header id="headerAdm" class="main-header">
+            <!--COLOCAR O HEADER DO SCRIPT AQUI CASO DE ALGUM ERRO, ESTA NO CARREGARHEADERFOOTER-->
+        </header>
+    
+        <main class="content">
+            <div class="page">
+                <div class="formLogin">
+                    <h1>Corrente do bem</h1>
+                    <h2>Funcionario</h2>
+
+                    <form id="formU">
+                        <label for="cpf">CPF:</label>
+                        <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" value="" oninput="" maxlength="14">
+                        <span id="idFunc" style="display: none;" value="0"></span>
+                        <div id="divAll" style="display: none;">
+                            <label for="nome">Nome:</label>
+                            <input id="nome" name="nome" type="text" placeholder="Nome" autofocus="true" value="" style="display: block;" readonly>
+
+                            <label for="email">Email:</label>
+                            <input id="email" name="email" type="text" placeholder="Email" value="" style="display: block;" readonly>
+
+                            <label for="cidade">Cidade:</label>
+                            <input id="cidade" name="cidade" type="text" placeholder="Cidade" value="" style="display: block;" readonly>
+                        </div>
+                    </form>
+                    <div id="divCPF" style="display: none">
+                        <h3 class="validarForm">CPF não encontrado, tente novamente.</h3>
+                    </div>
+                    <div id="divSucesso" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(11, 139, 39); margin-left: 2.6rem; margin-bottom: 2px;">Usuário inativado.</h3>
+                    </div>
+
+                    <div id="divErro" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(226, 8, 8); margin-left: 2.6rem; margin-bottom: 2px;">Permissão negada. Cadastre mais um administrador</h3>
+                    </div>
+                    <button id="buttonM" style="display: block;" class="btn" onclick="mostrarDados(event)">Mostrar</button>
+                    <button id="buttonE" style="display: none;" class="btn" onclick="esconderDados(event)">Esconder</button>
+                </div>
+
+                <div class="formLogin" id="divGeralD" style="display: none;">
+
+                    <h2>Donatario</h2>
+
+                    <form id="formU2">
+                        <label for="cpf2">CPF:</label>
+                        <input id="cpf2" name="cpf2" type="text" placeholder="Digite o CPF" value="" oninput="" maxlength="14">
+                        <span id="idDonat" style="display: none;" value="0"></span>
+
+                        <div id="divAll2" style="display: none;">
+                            <label for="nome2">Nome:</label>
+                            <input id="nome2" name="nome2" type="text" placeholder="Nome" autofocus="true" value="" style="display: block;" readonly>
+
+                            <label for="email2">Telefone:</label>
+                            <input id="telefone2" name="telefone2" type="text" placeholder="Telefone" value="" style="display: block;" readonly>
+
+                            <label for="cidade2">Cidade:</label>
+                            <input id="cidade2" name="cidade2" type="text" placeholder="Cidade" value="" style="display: block;" readonly>
+                        </div>
+                    </form>
+                    <div id="divCPF2" style="display: none">
+                        <h3 class="validarForm">CPF não encontrado, tente novamente.</h3>
+                    </div>
+                    <div id="divSucesso2" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(11, 139, 39); margin-left: 2.6rem; margin-bottom: 2px;">Usuário inativado.</h3>
+                    </div>
+
+                    <div id="divErro2" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(226, 8, 8); margin-left: 2.6rem; margin-bottom: 2px;">Permissão negada. Cadastre mais um administrador</h3>
+                    </div>
+
+                    <button id="buttonM2" style="display: block;" class="btn" onclick="mostrarDados('buttonM2')">Mostrar</button>
+                    <button id="buttonE2" style="display: none;" class="btn" onclick="esconderDados('buttonE2')">Esconder</button>
+                </div>
+
+                <div class="formLogin" id="divGeralF" style="display: none;">
+
+                    <h2>Entrega</h2>
+
+                    <form id="formU3">
+                    
+                        <div id="divAll3" style="display: block;">
+                            <label for="tipo">Tipo:</label>
+                            <input id="tipo" name="tipo" type="text" placeholder="Tipo" autofocus="true" value="" style="display: block;" >
+
+                            <label for="data">Data:</label>
+                            <input id="data" name="data" type="date" placeholder="Data entrega" value="" style="display: block;" >
+                        </div>
+                    </form>
+
+                    <div id="divCPF2" style="display: none">
+                        <h3 class="validarForm">CPF não encontrado, tente novamente.</h3>
+                    </div>
+                    <div id="divSucesso3" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(11, 139, 39); margin-left: 2.6rem; margin-bottom: 2px;">Entrega cadastrada.</h3>
+                    </div>
+
+                    <div id="divErro3" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(226, 8, 8); margin-left: 2.6rem; margin-bottom: 2px;">Erro preencha os campos corretos.</h3>
+                    </div>
+
+                    <button id="buttonEF" style="display: block;" class="btn" onclick="cadastrarE()">Confirmar</button>
+                </div>
+            </div>
+        </main>
+        <footer class="main-footer" id="footerAdm">
+            <!--COLOCAR O FOOTER DO SCRIPT AQUI CASO DE ALGUM ERRO, ESTA NO CARREGARHEADERFOOTER-->
+         </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,31 @@
+SELECT sequence_schema, sequence_name
+FROM information_schema.sequences
+WHERE sequence_schema NOT IN ('pg_catalog', 'information_schema');
+
+
+DO $$
+DECLARE
+    rec record;
+    sequence_name text;
+    sql_statement text;
+BEGIN
+    FOR rec IN
+        SELECT table_name, column_name
+        FROM information_schema.columns
+        WHERE table_schema = 'public'
+          AND column_default LIKE 'nextval%'
+    LOOP
+        -- Gera o nome da sequência conforme convenção padrão do PostgreSQL
+        sequence_name := rec.table_name || '_' || rec.column_name || '_seq';
+
+        -- Cria a sequência se não existir
+        sql_statement := 'CREATE SEQUENCE IF NOT EXISTS ' || quote_ident(sequence_name)
+                         || ' START WITH 1'
+                         || ' INCREMENT BY 1'
+                         || ' NO MINVALUE'
+                         || ' NO MAXVALUE'
+                         || ' CACHE 1;';
+
+        EXECUTE sql_statement;
+    END LOOP;
+END $$;
