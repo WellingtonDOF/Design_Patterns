@@ -3,6 +3,8 @@ package development.orgfounder.db.entities;
 import development.orgfounder.db.observer.IObserver;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="controle_acesso")
 public class ControleAcesso implements IObserver {
@@ -102,10 +104,17 @@ public class ControleAcesso implements IObserver {
     @Override
     public void update(Estoque estoque) {
 
+        int limiteMinimo=5;
 
-        int quantidade = estoque.getQuantidade();
+        if(estoque.getQuantidade()<limiteMinimo && this.isNotify())
+        {
+            System.out.println("Atenção, o estoque do produto " + estoque.getId() + " está abaixo do limite mínimo! Quantidade atual: " + estoque.getQuantidade());
+        }
+    }
 
-        if(quantidade <=10)
-
+    public void cadastrarParaNotificacoes(List<Estoque> estoques) {
+        for (Estoque estoque : estoques) {
+            estoque.attach(this); // Para cadastrar em todos os estoques
+        }
     }
 }

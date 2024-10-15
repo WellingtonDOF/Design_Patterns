@@ -46,6 +46,9 @@ public class Estoque {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+        if (quantidade < 5) { // Supondo que 5 seja o limite mínimo
+            notifyObservers();
+        }
     }
 
     public LocalDate getValidade() {

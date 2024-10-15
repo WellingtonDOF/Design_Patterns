@@ -4,6 +4,7 @@ import development.orgfounder.db.entities.ControleAcesso;
 import development.orgfounder.db.entities.Estoque;
 import development.orgfounder.security.JWTTokenProvider;
 import development.orgfounder.services.ControleAcessoService;
+import development.orgfounder.services.GestorEstoque;
 import development.orgfounder.services.ParametrizacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,10 @@ public class UserAdminRestControllers {
     @Autowired
     ControleAcessoService controleAcessoService;
 
+    @Autowired
+    GestorEstoque gestorEstoque;
+
+
     @GetMapping("get-parametrizacao")
     public ResponseEntity<Object> buscarParametrizacao(@RequestHeader("Authorization") String token)
     {
@@ -43,8 +48,6 @@ public class UserAdminRestControllers {
     {
 
         ControleAcesso controleAcesso = new ControleAcesso();
-        Estoque estoque = new Estoque();
-
         controleAcesso.setLogin(email);
         controleAcesso.setNome(nome);
         controleAcesso.setSenha(senha);
@@ -57,7 +60,10 @@ public class UserAdminRestControllers {
         if(controleAcessoService.getByEmail(email)==null)
         {
             controleAcesso = controleAcessoService.save(controleAcesso);
-            estoque.attach(controleAcesso);
+
+            // Registra o usuario para todos os estoques
+            controleAcesso.cadastrarParaNotificacoes(gestorEstoque.getTodosOsEstoques());
+
             return new ResponseEntity<>(controleAcesso, HttpStatus.OK);
         }
         else
