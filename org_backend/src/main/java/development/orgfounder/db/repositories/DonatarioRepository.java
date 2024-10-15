@@ -1,6 +1,5 @@
 package development.orgfounder.db.repositories;
 
-import development.orgfounder.db.entities.ControleAcesso;
 import development.orgfounder.db.entities.Donatario;
 import org.springframework.data.jpa.repository.JpaRepository;
 

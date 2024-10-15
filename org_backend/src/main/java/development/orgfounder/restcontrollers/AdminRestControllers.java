@@ -2,14 +2,14 @@ package development.orgfounder.restcontrollers;
 
 
 import development.orgfounder.db.entities.*;
+import development.orgfounder.db.repositories.*;
 import development.orgfounder.services.*;
-import org.apache.coyote.Response;
+import development.orgfounder.services.Models.ProdutoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.html.HTMLTableCaptionElement;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -18,9 +18,8 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -42,6 +41,10 @@ public class AdminRestControllers {
 
     @Autowired
     EntregaService entregaService;
+
+    @Autowired
+    ProdutoService produtoService;
+
 
     @GetMapping("teste-conexao")
     public String testeConexao() {
@@ -199,45 +202,48 @@ public class AdminRestControllers {
 
 
     @PostMapping("add-entrega")
-    public ResponseEntity<Object> adicionarEntrega(@RequestParam(value = "idF") String id_func,
-                                                   @RequestParam(value = "idD") String id_donat,
-                                                   @RequestParam(value = "tipo") String tipo,
-                                                   @RequestParam(value = "data") String data) {
+    public ResponseEntity<Object> adicionarEntrega(
+            @RequestParam(value = "idF") String id_func,
+            @RequestParam(value = "idD") String id_donat,
+            @RequestParam(value = "tipo") String tipo,
+            @RequestParam(value = "data") String data,
+            @RequestBody List<ProdutoEntrega> produtos) { // Alterado para receber uma lista de ProdutoEntrega
 
-        Long idFuncionario = Long.parseLong(id_func);
-        Long idDonatario = Long.parseLong(id_donat);
+        try {
+            Long idFuncionario = Long.parseLong(id_func);
+            Long idDonatario = Long.parseLong(id_donat);
 
-
-
-
-        Donatario donatario = donatarioService.getById(idDonatario);
-
-        if(donatario!=null)
-        {
-            Funcionario funcionario = funcionarioService.getById(idFuncionario);
-
-            if(funcionario!=null)
-            {
-                Entrega entrega = new Entrega();
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate data2 = LocalDate.parse(data, formatter);
-                entrega.setId_donatario(donatario);
-                entrega.setId_funcionario(funcionario);
-                entrega.setTipo(tipo);
-                entrega.setStatus("A");
-                entrega.setData(data2);
-
-                System.out.println("deu certo");
-                return new ResponseEntity<>(entregaService.save(entrega), HttpStatus.OK);
+            Donatario donatario = donatarioService.getById(idDonatario);
+            if (donatario == null) {
+                return new ResponseEntity<>("Donatário não encontrado", HttpStatus.NOT_FOUND);
             }
-            else
-                return new ResponseEntity<>("Erro",HttpStatus.NOT_FOUND);
 
+            Funcionario funcionario = funcionarioService.getById(idFuncionario);
+            if (funcionario == null) {
+                return new ResponseEntity<>("Funcionário não encontrado", HttpStatus.NOT_FOUND);
+            }
+
+            // Criação da entrega
+            Entrega entrega = new Entrega();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate data2 = LocalDate.parse(data, formatter);
+            entrega.setId_donatario(donatario);
+            entrega.setId_funcionario(funcionario);
+            entrega.setTipo(tipo);
+            entrega.setStatus("A");
+            entrega.setData(data2);
+
+            // Salva a entrega e os produtos associados
+            return new ResponseEntity<>(entregaService.save(entrega, produtos), HttpStatus.OK);
+
+        } catch (NumberFormatException e) {
+            return new ResponseEntity<>("ID de funcionário ou donatário inválido", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Erro ao processar a entrega: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        else
-            return new ResponseEntity<>("Erro",HttpStatus.NOT_FOUND);
-
     }
+
+
 
 
 }

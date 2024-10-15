@@ -1,4 +1,4 @@
-package development.orgfounder.db.observer;
+package development.orgfounder.services.Interfaces;
 
 import development.orgfounder.db.entities.Estoque;
 

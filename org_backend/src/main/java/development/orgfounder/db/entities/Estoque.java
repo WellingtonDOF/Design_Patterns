@@ -1,6 +1,6 @@
 package development.orgfounder.db.entities;
 
-import development.orgfounder.db.observer.IObserver;
+import development.orgfounder.services.Interfaces.IObserver;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;

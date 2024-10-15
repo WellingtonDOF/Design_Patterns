@@ -1,7 +1,5 @@
 package development.orgfounder.services;
 
-import development.orgfounder.db.entities.ControleAcesso;
-import development.orgfounder.db.entities.Donatario;
 import development.orgfounder.db.entities.Funcionario;
 import development.orgfounder.db.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
