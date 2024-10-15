@@ -17,8 +17,6 @@ function filtrarCpf()
 
 }
 
-
-
 function consultarEmail()
 {
     const URL = "http://localhost:8080/apis/user/get-Email";

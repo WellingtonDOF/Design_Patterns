@@ -1,5 +1,6 @@
 package development.orgfounder.services;
 
+import development.orgfounder.db.entities.Estoque;
 import development.orgfounder.db.entities.Produto;
 import development.orgfounder.db.repositories.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,14 @@ public class ProdutoService {
     // Método para excluir um produto
     public void delete(Long id) {
         produtoRepository.deleteById(id);
+    }
+
+    public Produto getByNome(String produto)
+    {
+        Produto produto2 = produtoRepository.findByNome(produto);
+
+        if(produto2==null)
+            return null;
+        return produto2;
     }
 }
