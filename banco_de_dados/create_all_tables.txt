@@ -188,6 +188,7 @@ CREATE TABLE IF NOT EXISTS "public"."produto" (
   "nome" VARCHAR(45) NOT NULL,
   "tipo" VARCHAR(35) NOT NULL,
   "valor" FLOAT NOT NULL,
+  "peso" FLOAT NOT NULL,
   CONSTRAINT "fk_produto_Estoque1"
     FOREIGN KEY ("id_estoque")
     REFERENCES "public"."estoque" ("id_estoque")
@@ -258,6 +259,7 @@ CREATE TABLE IF NOT EXISTS "public"."entrega" (
   "tipo" VARCHAR(35) NOT NULL,
   "data" timestamp without time zone NOT NULL,
   "status" CHAR(1) NOT NULL,
+  "peso_total" FLOAT NOT NULL,
   CONSTRAINT "fk_entrega_funcionario1"
     FOREIGN KEY ("id_funcionario")
     REFERENCES "public"."funcionario" ("id_funcionario")
