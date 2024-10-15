@@ -3,14 +3,11 @@ package development.orgfounder.services;
 import development.orgfounder.db.entities.Parametrizacao;
 import development.orgfounder.db.repositories.ParametrizacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ParametrizacaoService {

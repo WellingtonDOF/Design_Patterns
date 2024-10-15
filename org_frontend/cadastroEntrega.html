@@ -102,6 +102,22 @@
                         </div>
                     </form>
 
+                    <h3>Adicionar Produto</h3>
+                    <br>
+
+                    <div id="divAddProduto" style="display: block;">
+                        <form id="formProduto">
+                            <label for="produto">Produto:</label>
+                            <input id="produto" name="produto" type="text" placeholder="Nome do Produto" value="" style="display: block;">
+
+                            <label for="quantidade">Quantidade:</label>
+                            <input id="quantidade" name="quantidade" type="number" placeholder="Quantidade" value="" style="display: block;" min="1">
+                        </form>
+
+                        <button id="buttonAddProduto" class="btn" onclick="adicionarProduto(event)">Adicionar Produto</button>
+                        <div id="produtosList" style="margin-top: 10px;"></div>
+                    </div>
+
                     <div id="divCPF2" style="display: none">
                         <h3 class="validarForm">CPF não encontrado, tente novamente.</h3>
                     </div>
@@ -115,6 +131,8 @@
 
                     <button id="buttonEF" style="display: block;" class="btn" onclick="cadastrarE()">Confirmar</button>
                 </div>
+
+
             </div>
         </main>
         <footer class="main-footer" id="footerAdm">

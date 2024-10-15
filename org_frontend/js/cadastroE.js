@@ -236,61 +236,152 @@ function limparDados(text)
     }
 }
 
+let produtosSelecionados = [];
 
-function cadastrarE()
-{
+function adicionarProduto(event) {
+    event.preventDefault();
 
-    const URL = 'http://localhost:8080/apis/adm/add-entrega';
+    const nomeProduto = document.getElementById('produto').value.trim();
+    const quantidade = parseInt(document.getElementById('quantidade').value);
 
-    const divSucesso3 = document.getElementById("divSucesso3");
-    const data = {
-        idD: document.getElementById("idDonat").value,
-        idF: document.getElementById("idFunc").value,
-        tipo: document.getElementById("tipo").value,
-        data: document.getElementById("data").value
+    if (nomeProduto && quantidade > 0) {
+        produtosSelecionados.push({ nome: nomeProduto, quantidade });
+
+        document.getElementById('produto').value = '';
+        document.getElementById('quantidade').value = '';
+
+        atualizarListaProdutos();
+    } else {
+        alert('Por favor, informe um nome de produto e uma quantidade válida.');
+    }
+}
+
+function atualizarListaProdutos() {
+    const produtosListDiv = document.getElementById('produtosList');
+    produtosListDiv.innerHTML = '';
+
+    produtosSelecionados.forEach((produto, index) => {
+        const produtoDiv = document.createElement('div');
+        produtoDiv.textContent = `Produto: ${produto.nome}, Quantidade: ${produto.quantidade}`;
+        produtoDiv.style.marginBottom = '5px';
+
+        const removerButton = document.createElement('button');
+        removerButton.textContent = 'Remover';
+        removerButton.className = 'btn btn-small';
+        removerButton.style.marginLeft = '10px';
+        removerButton.onclick = () => removerProduto(index);
+
+        produtoDiv.appendChild(removerButton);
+        produtosListDiv.appendChild(produtoDiv);
+    });
+}
+
+function removerProduto(index) {
+    produtosSelecionados.splice(index, 1);
+    atualizarListaProdutos();
+}
+
+/*
+function cadastrarEntrega() {
+    const tipo = document.getElementById('tipo').value.trim();
+    const data = document.getElementById('data').value.trim();
+
+    if (!tipo || !data) {
+        alert('Por favor, preencha todos os campos da entrega.');
+        return;
+    }
+
+    if (produtosSelecionados.length === 0) {
+        alert('Adicione ao menos um produto à entrega.');
+        return;
+    }
+
+    const entregaData = {
+        tipo,
+        data,
+        produtos: produtosSelecionados
     };
 
-    var inputData = new Date(document.getElementById("data").value);
+    fetch('http://localhost:8080/apis/adm/add-entrega', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(entregaData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('divSucesso3').style.display = 'block';
+            document.getElementById('divErro3').style.display = 'none';
+            produtosSelecionados = [];
+            atualizarListaProdutos();
+        } else {
+            throw new Error(data.message || 'Erro ao cadastrar a entrega.');
+        }
+    })
+    .catch(error => {
+        document.getElementById('divErro3').style.display = 'block';
+        document.getElementById('divSucesso3').style.display = 'none';
+        console.error('Erro:', error);
+    });
+}*/
+
+function cadastrarE() {
+    const URL = 'http://localhost:8080/apis/adm/add-entrega';
+    const divSucesso3 = document.getElementById("divSucesso3");
+
+    const idD = document.getElementById("idDonat").value;
+    const idF = document.getElementById("idFunc").value;
+    const tipo = document.getElementById("tipo").value;
+    const data = document.getElementById("data").value;
+
+    const produtos = produtosSelecionados.map(produto => ({
+        idProduto: produto.idProduto, // Certifique-se de que isso está correto
+        quantidade: produto.quantidade // Certifique-se de que isso está correto
+    }));
+
+    var inputData = new Date(data);
     var dataAtual = new Date();
 
-    const formData = new FormData();
-    formData.append('idD', data.idD);
-    formData.append('idF', data.idF);
-    formData.append('tipo', data.tipo);
-    formData.append('data', data.data);
+    if (produtosSelecionados.length === 0) {
+        alert('Adicione ao menos um produto à entrega.');
+        return;
+    }
 
-    
-    if(inputData>=dataAtual && document.getElementById("tipo").value!="")
-    {
-        fetch(URL, {
+    if (inputData >= dataAtual && tipo != "") {
+        fetch(`${URL}?idF=${idF}&idD=${idD}&tipo=${tipo}&data=${data}`, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json' // Define o tipo de conteúdo como JSON
+            },
+            body: JSON.stringify(produtos) // Envia apenas a lista de produtos no corpo
         })
         .then(response => {
-        if(response.ok) 
-        {
-            console.log("Entrega adicionada com sucesso");
+            if (!response.ok) {
+                return response.text().then(err => {
+                    throw new Error(err);
+                });
+            }
+            return response.json(); // Parse como JSON se a resposta for OK
+        })
+        .then(data => {
+            console.log("Entrega adicionada com sucesso:", data);
             divSucesso3.style.display = "block";
 
             setTimeout(() => {
                 divSucesso3.style.display = "none";
-                window.location.href="cadastroEntrega.html"
+                window.location.href = "cadastroEntrega.html";
             }, 3000);
-        }
-        else 
-        {
-            console.error("Erro ao adicionar entrega");
-        }
         })
         .catch(error => {
             console.error("Erro na requisição:", error);
         });
-    }
-    else
-    {
+    } else {
         divErro3.style.display = "block";
         setTimeout(() => {
             divErro3.style.display = "none";
         }, 3000);
     }
 }
+
