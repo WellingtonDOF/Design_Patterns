@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrente do bem - Cadastro</title>
+    <link rel="stylesheet" href="./css/cadUser.css">
+    <link rel="stylesheet" href="./css/stylePagina.css">
+
+    <script src="./js/cadastroP.js"></script>
+    <script src="./js/carregarHeaderFooter.js"></script>
+
+    <script>
+      
+    </script>
+</head>
+<body onload="carregaHeaderFooter()">
+    <div class="wrapper">
+        <header id="headerAdm" class="main-header"></header>
+    
+        <main class="content">
+            <div class="page">
+                <div class="formLogin">
+                    <h1>Corrente do bem</h1>
+                    <h2>Buscar Produto</h2>
+
+                    <form id="formPD">
+                        <label for="produto">Produto:</label>
+                        <input id="produto" name="produto" type="text" placeholder="Digite o produto" oninput="produtoPesquisar()" onfocus="desativarCaixas()">
+                        <div id="divEmail" style="display: none">
+                            <h3 class="validarForm">Produto inválido!</h3>
+                        </div>
+
+                        <div id="divAll" style="display: none;">
+                            <label for="nome">Nome:</label>
+                            <input id="nome" name="nome" type="text" placeholder="Nome*" readonly>
+
+                            <label for="tipo">Tipo:</label>
+                            <input id="tipo" name="tipo" type="text" placeholder="Tipo" readonly>
+
+                            <label for="valor">Valor:</label>
+                            <input id="valor" name="valor" type="text" placeholder="valor" readonly>
+
+                            <label for="peso">Peso:</label>
+                            <input id="peso" name="peso" type="text" placeholder="peso" readonly>
+
+                            <label for="estoque">ESTOQUE:</label>
+                            <div style="display: flex; align-items: center;">
+                                <button type="button" onclick="diminuirEstoque()">-</button>
+                                <input id="estoque" name="estoque" type="text" placeholder="estoque" value="0" readonly style="width: 50px; text-align: center;">
+                                <button type="button" onclick="aumentarEstoque()">+</button>
+                            </div>
+                        </div>
+                        <input id="estoqueId" name="estoqueId" type="hidden" value="0">
+                    </form>
+
+                    <div id="divSucesso" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(11, 139, 39); margin-left: 2.6rem; margin-bottom: 2px;">Usuário inativado.</h3>
+                    </div>
+
+                    <div id="divErro" style="display: none;">
+                        <h3 class="validarForm" style="color: rgb(226, 8, 8); margin-left: 2.6rem; margin-bottom: 2px;">Permissão negada. Cadastre mais um administrador</h3>
+                    </div>
+
+                    <button id="buttonU" style="display: none;" class="btn" onclick="inativarUsuario(event)">Confirmar</button>
+                
+                </div>
+            </div>
+        </main>
+        <footer class="main-footer" id="footerAdm"></footer>
+    </div>
+</body>
+</html>

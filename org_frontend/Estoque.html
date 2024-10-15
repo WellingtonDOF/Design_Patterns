@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle de Estoque</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            font-size: 24px;
+            width: 60px;
+            text-align: center;
+        }
+        button {
+            font-size: 20px;
+            margin: 10px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Controle de Estoque</h1>
+    <h2>Produto: Exemplo de Produto</h2>
+    <input type="number" id="estoque" value="0" readonly>
+    <br>
+    <button onclick="decrease()">Diminuir Estoque</button>
+    <button onclick="increase()">Aumentar Estoque</button>
+
+    <script>
+        function increase() {
+            const input = document.getElementById('estoque');
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function decrease() {
+            const input = document.getElementById('estoque');
+            if (parseInt(input.value) > 0) {
+                input.value = parseInt(input.value) - 1;
+            } else {
+                alert("O estoque não pode ser negativo!");
+            }
+        }
+    </script>
+
+</body>
+</html>

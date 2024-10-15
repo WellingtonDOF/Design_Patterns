@@ -44,6 +44,8 @@ public class AdminRestControllers {
 
     @Autowired
     ProdutoService produtoService;
+    @Autowired
+    private EstoqueService estoqueService;
 
 
     @GetMapping("teste-conexao")
@@ -56,6 +58,28 @@ public class AdminRestControllers {
         return "conectado";
     }
 
+    @PostMapping("get-produto-estoque")
+    public ResponseEntity<Object> obterProduto(@RequestParam(value="produto") String produto)
+
+    {
+        if(produtoService.getByNome(produto)==null)
+            return new ResponseEntity<>("Nao cadastrado",HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(produtoService.getByNome(produto), HttpStatus.OK);
+    }
+
+    @PostMapping("alterar-estoque")
+    public ResponseEntity<Object> alterarEstoque(@RequestParam(value="estoque") int estoque, @RequestParam(value="id") Long id)
+    {
+        Estoque estoque1 = estoqueService.getById(id);
+        // Verifique se o produto está cadastrado pelo ID
+        if (estoque1 == null) {
+            return new ResponseEntity<>("Estoque não cadastrado", HttpStatus.NOT_FOUND);
+        }
+        estoque1.setQuantidade(estoque); ;
+
+        return new ResponseEntity<>(estoqueService.save(estoque1), HttpStatus.OK);
+    }
 
     // ======================= PARAMETRIZAÇÃO =========================//
 
@@ -89,6 +113,7 @@ public class AdminRestControllers {
                                                        @RequestHeader("Authorization") String token) {
         try{
 
+            //CASO NÃO DE CERTO ESSA PARAMETRIZAÇÃO TEM QUE ADICIONAR NA PASTA RESOURCES -> STATIC -> A PASTA -> IMAGE || EM TARGET -> CLASSES -> STATIC -> IMAGE
             Parametrizacao parametrizacao = new Parametrizacao();
 
             String nomePasta = "\\image";
@@ -154,6 +179,7 @@ public class AdminRestControllers {
         // passo 1L porque só vai ter 1 tabela la, caso não tenha nenhuma ele retorna objeto vazio e o ID vai ser 0 que eu verifico no script..
         return new ResponseEntity<>(parametrizacaoService.getById(1L), HttpStatus.OK);
     }
+
 
 
     @PostMapping("add-controleacesso")

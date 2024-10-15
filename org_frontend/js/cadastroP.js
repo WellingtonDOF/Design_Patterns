@@ -237,6 +237,107 @@ function deletarAcessoU()
 }
 
 
+
+function produtoPesquisar()
+{
+    const URL = "http://localhost:8080/apis/adm/get-produto-estoque";
+
+    const token = localStorage.getItem('jwtToken');
+    const nome = document.getElementById("nome");
+    const tipo = document.getElementById("tipo");
+    const button = document.getElementById("buttonU");
+    const valor = document.getElementById("valor");
+    const peso = document.getElementById("peso");
+    const estoque = document.getElementById("estoque");
+    const estoqueId = document.getElementById("estoqueId");
+
+    const divAll = document.getElementById("divAll");
+    var formPD = document.getElementById("formPD");
+
+        fetch(URL, 
+        {
+            method: 'POST', 
+            headers: {
+            },
+            body: new FormData(formPD)
+        })
+        .then(resp => 
+        {
+            if(resp.status===200)
+            {
+                resp.json().then(data =>{
+
+                    console.log(data)
+                    nome.value=data.nome;
+                    tipo.value=data.tipo;
+                    valor.value=data.valor;
+                    peso.value=data.peso;
+                    estoque.value=data.id_estoque.quantidade;
+                    estoqueId.value=data.id_estoque.id;
+                    divAll.style.display="block"
+                    button.style.display="block";
+                })
+            }
+            else
+                if(resp.status===404)
+                {
+                    divEmail.style.display = "block";
+                        setTimeout(() => {
+                            divEmail.style.display = "none";
+                        }, 3000);
+                }
+            
+            //alert("Denuncia \u2022"+formDenuncia.elements["denName"].value+"\u2022 Concluida!");
+            //window.location.href="cadastroParametrizacao.html";
+            return console.log(resp);
+        })
+        .catch(error => {
+            console.error('Erro na requisição:', error);
+        });
+}
+
+function aumentarEstoque() {
+    const estoqueInput = document.getElementById('estoque');
+    estoqueInput.value = parseInt(estoqueInput.value) + 1;
+}
+
+function diminuirEstoque() {
+    
+    const estoqueInput = document.getElementById('estoque');
+    if (parseInt(estoqueInput.value) > 0) {
+        estoqueInput.value = parseInt(estoqueInput.value) - 1;
+    } else {
+        alert("O estoque não pode ser negativo!");
+    }
+}
+function confirmarEstoque(event) {
+    event.preventDefault(); // Previne o comportamento padrão do botão
+    const URL = "http://localhost:8080/apis/adm/alterar-estoque";
+
+    const estoqueInput = document.getElementById('estoque');
+    const estoqueAtual = parseInt(estoqueInput.value);
+    const estoqueId = document.getElementById('estoqueId').value; // Obtém o ID do produto
+
+    const requestUrl = `${URL}?estoque=${estoqueAtual}&id=${estoqueId}`; // Monta a URL com os parâmetros
+
+    fetch(requestUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        document.getElementById('divSucesso').style.display = 'block';
+    })
+    .catch(error => {
+        console.error('Erro:', error);
+        document.getElementById('divErro').style.display = 'block';
+    });
+}
+
+
 function inativarUsuario()
 {
     const URL = "http://localhost:8080/apis/user/deletar-User";
