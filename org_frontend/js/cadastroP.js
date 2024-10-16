@@ -310,6 +310,7 @@ function diminuirEstoque() {
         alert("O estoque não pode ser negativo!");
     }
 }
+
 function confirmarEstoque(event) {
     event.preventDefault(); // Previne o comportamento padrão do botão
     const URL = "http://localhost:8080/apis/adm/alterar-estoque";

@@ -46,7 +46,10 @@ public class Estoque {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-        if (quantidade < 5) { // Supondo que 5 seja o limite mínimo
+
+        if (quantidade <= 5) { // Supondo que 5 seja o limite mínimo
+            System.out.println("entrou");
+
             notifyObservers();
         }
     }
@@ -68,6 +71,8 @@ public class Estoque {
     }
 
     public void notifyObservers() {
+
+        System.out.println("etrou no notify");
         for (IObserver observer : observers) {
             observer.update(this); //ta puxando o estoque dessa classe, para realizar o update
         }

@@ -106,13 +106,15 @@ public class ControleAcesso implements IObserver {
 
         int limiteMinimo=5;
 
-        if(estoque.getQuantidade()<limiteMinimo && this.isNotify())
+        if(estoque.getQuantidade()<=limiteMinimo && this.isNotify())
         {
             System.out.println("Atenção, o estoque do produto " + estoque.getId() + " está abaixo do limite mínimo! Quantidade atual: " + estoque.getQuantidade());
         }
     }
 
     public void cadastrarParaNotificacoes(List<Estoque> estoques) {
+
+        System.out.println("2222");
         for (Estoque estoque : estoques) {
             estoque.attach(this); // Para cadastrar em todos os estoques
         }

@@ -61,7 +61,7 @@ public class UserAdminRestControllers {
 
             // Registra o usuario para todos os estoques
             controleAcesso.cadastrarParaNotificacoes(gestorEstoque.getTodosOsEstoques());
-
+            System.out.println("testestestestetesteste");
             return new ResponseEntity<>(controleAcesso, HttpStatus.OK);
         }
         else

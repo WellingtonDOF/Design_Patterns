@@ -76,8 +76,8 @@ public class AdminRestControllers {
         if (estoque1 == null) {
             return new ResponseEntity<>("Estoque não cadastrado", HttpStatus.NOT_FOUND);
         }
-        estoque1.setQuantidade(estoque); ;
 
+        estoque1.setQuantidade(estoque); ;
         return new ResponseEntity<>(estoqueService.save(estoque1), HttpStatus.OK);
     }
 
