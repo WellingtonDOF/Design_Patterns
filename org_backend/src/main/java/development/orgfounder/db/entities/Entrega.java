@@ -1,40 +1,47 @@
 package development.orgfounder.db.entities;
 
-
 import jakarta.persistence.*;
-
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name="entrega")
+@Table(name = "entrega")
 public class Entrega {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_entrega")
+    @Column(name = "id_entrega")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="id_funcionario", nullable = false) // nome da coluna que vai referenciar, e se pode ou não ser nula, nesse caso não pode ser NOT_NULL
+    @JoinColumn(name = "id_funcionario", nullable = false)
     private Funcionario id_funcionario;
 
     @ManyToOne
-    @JoinColumn(name="id_donatario", nullable = false) // nome da coluna que vai referenciar, e se pode ou não ser nula, nesse caso não pode ser NOT_NULL
+    @JoinColumn(name = "id_donatario", nullable = false)
     private Donatario id_donatario;
-    //Objeto tipo orgao
 
-    @Column(name="tipo")
+    @Column(name = "tipo")
     private String tipo;
-    @Column(name="data")
+
+    @Column(name = "data")
     private LocalDate data;
-    @Column(name="status")
+
+    @Column(name = "status")
     private String status;
 
-    @Column(name="peso_total")
+    @Column(name = "peso_total")
     private Double peso_total;
 
-    public Entrega(){this(0L,null,null,"",null,"A",0.0);}
-    public Entrega(Long id, Funcionario id_funcionario, Donatario id_donatario, String tipo, LocalDate data, String status,Double peso_total) {
+
+
+    // Construtores, Getters e Setters
+
+    public Entrega() {
+        this(0L, null, null, "", null, "A", 0.0);
+    }
+
+    public Entrega(Long id, Funcionario id_funcionario, Donatario id_donatario, String tipo, LocalDate data, String status, Double peso_total) {
         this.id = id;
         this.id_funcionario = id_funcionario;
         this.id_donatario = id_donatario;
@@ -44,13 +51,7 @@ public class Entrega {
         this.peso_total = peso_total;
     }
 
-    public Double getPeso_total() {
-        return peso_total;
-    }
-
-    public void setPeso_total(Double peso_total) {
-        this.peso_total = peso_total;
-    }
+    // Getters e Setters omitidos para brevidade
 
     public Long getId() {
         return id;
@@ -99,4 +100,23 @@ public class Entrega {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public Double getPeso_total() {
+        return peso_total;
+    }
+
+    public void setPeso_total(Double peso_total) {
+        this.peso_total = peso_total;
+    }
+
+    /*
+    public List<ProdutoEntregaKey> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<ProdutoEntregaKey> produtos) {
+        this.produtos = produtos;
+    }
+    */
+
 }

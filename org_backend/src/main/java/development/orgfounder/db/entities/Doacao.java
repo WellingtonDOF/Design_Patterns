@@ -27,6 +27,18 @@ public class Doacao {
     @Column(name="valor")
     private Double valor;
 
+    @ManyToOne
+    @JoinColumn(name="id_produto", nullable = false) // nome da coluna que vai referenciar, e se pode ou não ser nula, nesse caso não pode ser NOT_NULL
+    private Produto id_produto;
+
+    public Produto getId_produto() {
+        return id_produto;
+    }
+
+    public void setId_produto(Produto id_produto) {
+        this.id_produto = id_produto;
+    }
+
     public Doacao(){this(0L,null,null,"","A",null,0.0);}
     public Doacao(Long id, Caixa id_caixa, Doador id_doador, String categoria, String status, LocalDate data, Double valor) {
         this.id = id;

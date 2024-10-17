@@ -5,50 +5,79 @@ import development.orgfounder.db.entities.Produto;
 import development.orgfounder.db.entities.ProdutoEntrega;
 import development.orgfounder.db.entities.ProdutoEntregaKey;
 import development.orgfounder.db.repositories.EntregaRepository;
+import development.orgfounder.db.repositories.ProdutoEntregaRepository;
 import development.orgfounder.services.Models.ProdutoEntregaModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-public class EntregaService {
+public class EntregaService extends TransacaoService<Entrega> {
 
     @Autowired
     private EntregaRepository repo;
 
     @Autowired
-    private ProdutoService produtoService; // Serviço para buscar o produto
+    private ProdutoEntregaRepository produtoEntregaRepository;
 
-    public Entrega save(Entrega entrega, List<ProdutoEntrega> produtos) {
-        // Itera sobre cada ProdutoEntrega e processa
-        for (ProdutoEntrega produtoEntrega : produtos) {
-            // Obtém o produto correspondente usando a chave do ProdutoEntrega
-            Long produtoId = produtoEntrega.getId().getId_produto().getId();
-            Produto produto = produtoService.getById(produtoId);
-            if (produto == null) {
-                throw new RuntimeException("Produto não encontrado: " + produtoId);
-            }
+    @Autowired
+    private ProdutoService produtoService;
 
-            // Atualiza a chave de ProdutoEntrega com a entrega atual
-            produtoEntrega.setId(new ProdutoEntregaKey(produto, entrega));
-
-            // Cria a model de ProdutoEntrega para calcular o peso total e definir o transporte
-            ProdutoEntregaModel produtoEntregaModel = new ProdutoEntregaModel(produtoEntrega);
-
-            // Calcula o transporte e aplica a lógica antes de salvar a entrega
-            String meioDeTransporte = produtoEntregaModel.definirTransporte();
-            System.out.println("Meio de Transporte Definido: " + meioDeTransporte);
-
-            // Salva a ProdutoEntrega
-            // Aqui você deve implementar o salvamento no repositório de ProdutoEntrega
-            // Exemplo: produtoEntregaRepository.save(produtoEntrega);
+    @Override
+    protected void validarTransacao(Entrega entrega) {
+        if (entrega.getId_donatario() == null) {
+            throw new IllegalArgumentException("Donatário não pode ser nulo.");
         }
+    }
 
-        // Salva a entrega com as informações de ProdutoEntrega associadas
+    @Override
+    protected void processarItens(Entrega entrega, List<?> produtos) {
+        for (Object obj : produtos) {
+            if (obj instanceof Produto) {
+                ProdutoEntrega produtoEntrega = (ProdutoEntrega) obj;
+
+                // Obtém o ID do produto da chave composta
+                Long produtoId = produtoEntrega.getId().getId_produto().getId();
+
+                // Busca o produto correspondente
+                Produto produto = produtoService.getById(produtoId);
+                if (produto == null) {
+                    throw new RuntimeException("Produto não encontrado: " + produtoId);
+                }
+
+                // Atualiza a chave de ProdutoEntrega com a entrega atual
+                produtoEntrega.setId(new ProdutoEntregaKey(produto, entrega));
+
+                // Cria a model de ProdutoEntrega para calcular o peso total e definir o transporte
+                ProdutoEntregaModel produtoEntregaModel = new ProdutoEntregaModel(produtoEntrega);
+
+                // Calcula o meio de transporte
+                String meioDeTransporte = produtoEntregaModel.definirTransporte();
+                System.out.println("Meio de Transporte Definido: " + meioDeTransporte);
+
+                // Salva a ProdutoEntrega
+                produtoEntregaRepository.save(produtoEntrega);
+            } else {
+                throw new IllegalArgumentException("Item da lista não é do tipo ProdutoEntrega.");
+            }
+        }
+    }
+
+    @Override
+    protected Entrega salvar(Entrega entrega) {
         return repo.save(entrega);
     }
 
+    @Transactional
+    public Entrega executarTransacao(Entrega entrega, List<ProdutoEntrega> produtos) {
+        validarTransacao(entrega);
+        processarItens(entrega, produtos);
+        return salvar(entrega);
+    }
+
+    @Transactional(readOnly = true)
     public List<Entrega> getAll() {
         return repo.findAll();
     }

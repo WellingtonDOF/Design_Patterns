@@ -234,7 +234,7 @@ public class AdminRestControllers {
             entrega.setData(data2);
 
             // Salva a entrega e os produtos associados
-            return new ResponseEntity<>(entregaService.save(entrega, produtos), HttpStatus.OK);
+            return new ResponseEntity<>(entregaService.salvarTransacao(entrega, produtos), HttpStatus.OK);
 
         } catch (NumberFormatException e) {
             return new ResponseEntity<>("ID de funcionário ou donatário inválido", HttpStatus.BAD_REQUEST);
