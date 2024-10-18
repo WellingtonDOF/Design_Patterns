@@ -29,7 +29,7 @@ public class DoacaoService extends TransacaoService<Doacao> {
 
     @Override
     protected void processarItens(Doacao doacao, List<?> itens) {
-        // Verifica se a lista de itens é do tipo correto
+
         if (!(itens instanceof Produto)) {
             throw new RuntimeException("Itens devem ser do tipo List<ItensDoacao>.");
         }
@@ -38,7 +38,7 @@ public class DoacaoService extends TransacaoService<Doacao> {
 
         // Processa cada item
         for (Produto item : itensDoacao) {
-            // Validação da quantidade
+
             if (item.getId_estoque().getQuantidade() <= 0) {
                 throw new RuntimeException("A quantidade deve ser maior que zero para o item: " + item.getId());
             }

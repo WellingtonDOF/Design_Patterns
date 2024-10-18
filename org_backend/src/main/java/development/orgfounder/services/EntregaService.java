@@ -38,22 +38,22 @@ public class EntregaService extends TransacaoService<Entrega> {
             if (obj instanceof Produto) {
                 ProdutoEntrega produtoEntrega = (ProdutoEntrega) obj;
 
-                // Obtém o ID do produto da chave composta
+
                 Long produtoId = produtoEntrega.getId().getId_produto().getId();
 
-                // Busca o produto correspondente
+
                 Produto produto = produtoService.getById(produtoId);
                 if (produto == null) {
                     throw new RuntimeException("Produto não encontrado: " + produtoId);
                 }
 
-                // Atualiza a chave de ProdutoEntrega com a entrega atual
+
                 produtoEntrega.setId(new ProdutoEntregaKey(produto, entrega));
 
-                // Cria a model de ProdutoEntrega para calcular o peso total e definir o transporte
+
                 ProdutoEntregaModel produtoEntregaModel = new ProdutoEntregaModel(produtoEntrega);
 
-                // Calcula o meio de transporte
+
                 String meioDeTransporte = produtoEntregaModel.definirTransporte();
                 System.out.println("Meio de Transporte Definido: " + meioDeTransporte);
 
